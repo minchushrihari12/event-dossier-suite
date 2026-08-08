@@ -13,6 +13,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApprovalsRouteImport } from './routes/approvals'
 import { Route as BudgetRouteImport } from './routes/budget'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as DocumentationRouteImport } from './routes/documentation'
+import { Route as DossiersRouteImport } from './routes/dossiers'
 import { Route as EventsIndexRouteImport } from './routes/events.index'
 import { Route as EventsIdRouteImport } from './routes/events.$id'
 import { Route as EventsNewRouteImport } from './routes/events.new'
@@ -37,6 +39,16 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DocumentationRoute = DocumentationRouteImport.update({
+  id: '/documentation',
+  path: '/documentation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DossiersRoute = DossiersRouteImport.update({
+  id: '/dossiers',
+  path: '/dossiers',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EventsIndexRoute = EventsIndexRouteImport.update({
   id: '/events/',
   path: '/events/',
@@ -58,6 +70,8 @@ export interface FileRoutesByFullPath {
   '/approvals': typeof ApprovalsRoute
   '/budget': typeof BudgetRoute
   '/dashboard': typeof DashboardRoute
+  '/documentation': typeof DocumentationRoute
+  '/dossiers': typeof DossiersRoute
   '/events/$id': typeof EventsIdRoute
   '/events/new': typeof EventsNewRoute
   '/events/': typeof EventsIndexRoute
@@ -67,6 +81,8 @@ export interface FileRoutesByTo {
   '/approvals': typeof ApprovalsRoute
   '/budget': typeof BudgetRoute
   '/dashboard': typeof DashboardRoute
+  '/documentation': typeof DocumentationRoute
+  '/dossiers': typeof DossiersRoute
   '/events/$id': typeof EventsIdRoute
   '/events/new': typeof EventsNewRoute
   '/events': typeof EventsIndexRoute
@@ -77,6 +93,8 @@ export interface FileRoutesById {
   '/approvals': typeof ApprovalsRoute
   '/budget': typeof BudgetRoute
   '/dashboard': typeof DashboardRoute
+  '/documentation': typeof DocumentationRoute
+  '/dossiers': typeof DossiersRoute
   '/events/$id': typeof EventsIdRoute
   '/events/new': typeof EventsNewRoute
   '/events/': typeof EventsIndexRoute
@@ -88,6 +106,8 @@ export interface FileRouteTypes {
     | '/approvals'
     | '/budget'
     | '/dashboard'
+    | '/documentation'
+    | '/dossiers'
     | '/events/$id'
     | '/events/new'
     | '/events/'
@@ -97,6 +117,8 @@ export interface FileRouteTypes {
     | '/approvals'
     | '/budget'
     | '/dashboard'
+    | '/documentation'
+    | '/dossiers'
     | '/events/$id'
     | '/events/new'
     | '/events'
@@ -106,6 +128,8 @@ export interface FileRouteTypes {
     | '/approvals'
     | '/budget'
     | '/dashboard'
+    | '/documentation'
+    | '/dossiers'
     | '/events/$id'
     | '/events/new'
     | '/events/'
@@ -116,6 +140,8 @@ export interface RootRouteChildren {
   ApprovalsRoute: typeof ApprovalsRoute
   BudgetRoute: typeof BudgetRoute
   DashboardRoute: typeof DashboardRoute
+  DocumentationRoute: typeof DocumentationRoute
+  DossiersRoute: typeof DossiersRoute
   EventsIdRoute: typeof EventsIdRoute
   EventsNewRoute: typeof EventsNewRoute
   EventsIndexRoute: typeof EventsIndexRoute
@@ -151,6 +177,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/documentation': {
+      id: '/documentation'
+      path: '/documentation'
+      fullPath: '/documentation'
+      preLoaderRoute: typeof DocumentationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dossiers': {
+      id: '/dossiers'
+      path: '/dossiers'
+      fullPath: '/dossiers'
+      preLoaderRoute: typeof DossiersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/events/': {
       id: '/events/'
       path: '/events'
@@ -180,6 +220,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApprovalsRoute: ApprovalsRoute,
   BudgetRoute: BudgetRoute,
   DashboardRoute: DashboardRoute,
+  DocumentationRoute: DocumentationRoute,
+  DossiersRoute: DossiersRoute,
   EventsIdRoute: EventsIdRoute,
   EventsNewRoute: EventsNewRoute,
   EventsIndexRoute: EventsIndexRoute,
