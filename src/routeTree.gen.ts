@@ -10,6 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApprovalsRouteImport } from './routes/approvals'
+import { Route as BudgetRouteImport } from './routes/budget'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as EventsIndexRouteImport } from './routes/events.index'
 import { Route as EventsIdRouteImport } from './routes/events.$id'
@@ -18,6 +20,16 @@ import { Route as EventsNewRouteImport } from './routes/events.new'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApprovalsRoute = ApprovalsRouteImport.update({
+  id: '/approvals',
+  path: '/approvals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BudgetRoute = BudgetRouteImport.update({
+  id: '/budget',
+  path: '/budget',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -43,6 +55,8 @@ const EventsNewRoute = EventsNewRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/approvals': typeof ApprovalsRoute
+  '/budget': typeof BudgetRoute
   '/dashboard': typeof DashboardRoute
   '/events/$id': typeof EventsIdRoute
   '/events/new': typeof EventsNewRoute
@@ -50,6 +64,8 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/approvals': typeof ApprovalsRoute
+  '/budget': typeof BudgetRoute
   '/dashboard': typeof DashboardRoute
   '/events/$id': typeof EventsIdRoute
   '/events/new': typeof EventsNewRoute
@@ -58,6 +74,8 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/approvals': typeof ApprovalsRoute
+  '/budget': typeof BudgetRoute
   '/dashboard': typeof DashboardRoute
   '/events/$id': typeof EventsIdRoute
   '/events/new': typeof EventsNewRoute
@@ -65,15 +83,38 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/events/$id' | '/events/new' | '/events/'
+  fullPaths:
+    | '/'
+    | '/approvals'
+    | '/budget'
+    | '/dashboard'
+    | '/events/$id'
+    | '/events/new'
+    | '/events/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/events/$id' | '/events/new' | '/events'
+  to:
+    | '/'
+    | '/approvals'
+    | '/budget'
+    | '/dashboard'
+    | '/events/$id'
+    | '/events/new'
+    | '/events'
   id:
-    '__root__' | '/' | '/dashboard' | '/events/$id' | '/events/new' | '/events/'
+    | '__root__'
+    | '/'
+    | '/approvals'
+    | '/budget'
+    | '/dashboard'
+    | '/events/$id'
+    | '/events/new'
+    | '/events/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApprovalsRoute: typeof ApprovalsRoute
+  BudgetRoute: typeof BudgetRoute
   DashboardRoute: typeof DashboardRoute
   EventsIdRoute: typeof EventsIdRoute
   EventsNewRoute: typeof EventsNewRoute
@@ -87,6 +128,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/approvals': {
+      id: '/approvals'
+      path: '/approvals'
+      fullPath: '/approvals'
+      preLoaderRoute: typeof ApprovalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/budget': {
+      id: '/budget'
+      path: '/budget'
+      fullPath: '/budget'
+      preLoaderRoute: typeof BudgetRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -122,6 +177,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApprovalsRoute: ApprovalsRoute,
+  BudgetRoute: BudgetRoute,
   DashboardRoute: DashboardRoute,
   EventsIdRoute: EventsIdRoute,
   EventsNewRoute: EventsNewRoute,
