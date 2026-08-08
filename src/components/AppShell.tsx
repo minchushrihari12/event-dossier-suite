@@ -42,12 +42,17 @@ const NAV: NavItem[] = [
 ];
 
 export function AppShell({ children }: { children: ReactNode }) {
-  const { currentUser, signIn, signOut } = useStore();
+  const { currentUser, signIn, signOut, ready } = useStore();
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [open, setOpen] = useState(false);
 
+  useEffect(() => {
+    if (ready && !currentUser) navigate({ to: "/" });
+  }, [ready, currentUser, navigate]);
+
   if (!currentUser) return null;
+
   const items = NAV.filter((n) => n.roles.includes(currentUser.role));
 
   const sidebar = (
