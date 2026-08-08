@@ -78,15 +78,15 @@ export interface EventRecord {
   expectedParticipants: number;
   coordinator: string;
   plannedBudget: number;
-  posterUrl?: string;
-  posterName?: string;
+  posterUrl?: string | undefined;
+  posterName?: string | undefined;
   status: EventStatus;
   organizerId: string;
   createdAt: string;
-  submittedAt?: string;
-  conductedAt?: string;
-  dossierGeneratedAt?: string;
-  verified?: boolean;
+  submittedAt?: string | undefined;
+  conductedAt?: string | undefined;
+  dossierGeneratedAt?: string | undefined;
+  verified?: boolean | undefined;
 }
 
 export interface BudgetItem {
@@ -105,8 +105,8 @@ export interface Expense {
   plannedAmount: number;
   actualAmount: number;
   date: string;
-  receiptUrl?: string;
-  receiptName?: string;
+  receiptUrl?: string | undefined;
+  receiptName?: string | undefined;
 }
 
 export interface Approval {
@@ -137,8 +137,8 @@ export interface Photo {
   url: string;
   caption: string;
   geoTagged: boolean;
-  latitude?: number;
-  longitude?: number;
+  latitude?: number | undefined;
+  longitude?: number | undefined;
   uploadedAt: string;
 }
 
@@ -152,8 +152,8 @@ export interface Feedback {
   venue: number;
   experience: number;
   summary: string;
-  reportName?: string;
-  reportUrl?: string;
+  reportName?: string | undefined;
+  reportUrl?: string | undefined;
 }
 
 export interface PressClipping {
@@ -163,9 +163,9 @@ export interface PressClipping {
   source: string;
   publicationDate: string;
   kind: string;
-  link?: string;
-  fileUrl?: string;
-  fileName?: string;
+  link?: string | undefined;
+  fileUrl?: string | undefined;
+  fileName?: string | undefined;
 }
 
 export interface DossierRecord {
