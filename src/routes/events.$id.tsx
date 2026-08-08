@@ -573,7 +573,7 @@ function BudgetTab({ ev, editable }: { ev: EventRecord; editable: boolean }) {
                 <Button
                   className="w-full"
                   onClick={() => {
-                    if (!line.plannedAmount) return toast.error("Enter a planned amount");
+                    if (!line.plannedAmount) { toast.error("Enter a planned amount"); return; }
                     update((d) => {
                       d.budgetItems.push({
                         id: "bi-" + uid(),
@@ -654,7 +654,7 @@ function BudgetTab({ ev, editable }: { ev: EventRecord; editable: boolean }) {
                 <Button
                   className="w-full"
                   onClick={async () => {
-                    if (!exp.actualAmount) return toast.error("Enter the actual amount");
+                    if (!exp.actualAmount) { toast.error("Enter the actual amount"); return; }
                     const input = document.getElementById(`receipt-${ev.id}`) as HTMLInputElement | null;
                     const file = input?.files?.[0];
                     const url = file ? await readFileAsDataUrl(file) : undefined;
@@ -742,7 +742,7 @@ function ApprovalTab({ ev }: { ev: EventRecord }) {
   const isDean = currentUser!.role === "dean";
 
   const decide = (decision: "approved" | "rejected") => {
-    if (!comment.trim()) return toast.error("Please add a comment before deciding");
+    if (!comment.trim()) { toast.error("Please add a comment before deciding"); return; }
     update((d) => {
       d.approvals.push({
         id: "ap-" + uid(),
@@ -876,7 +876,7 @@ function ReportTab({ ev, editable }: { ev: EventRecord; editable: boolean }) {
         <div className="sm:col-span-2">
           <Button
             onClick={() => {
-              if (!f.description.trim()) return toast.error("Report description is required");
+              if (!f.description.trim()) { toast.error("Report description is required"); return; }
               update((d) => {
                 d.reports = d.reports.filter((r) => r.eventId !== ev.id);
                 d.reports.push({
@@ -1133,7 +1133,7 @@ function FeedbackTab({ ev, editable }: { ev: EventRecord; editable: boolean }) {
               <Button
                 onClick={() => {
                   if (!f.responses || !f.averageRating)
-                    return toast.error("Responses and average rating are required");
+                    { toast.error("Responses and average rating are required"); return; }
                   update((d) => {
                     d.feedback = d.feedback.filter((x) => x.eventId !== ev.id);
                     d.feedback.push({
@@ -1252,7 +1252,7 @@ function PressTab({ ev, editable }: { ev: EventRecord; editable: boolean }) {
             <Button
               onClick={async () => {
                 if (!f.title.trim() || !f.source.trim())
-                  return toast.error("Title and source are required");
+                  { toast.error("Title and source are required"); return; }
                 const input = document.getElementById(`press-${ev.id}`) as HTMLInputElement | null;
                 const file = input?.files?.[0];
                 const url = file ? await readFileAsDataUrl(file) : undefined;
