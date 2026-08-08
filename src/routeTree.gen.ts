@@ -15,6 +15,7 @@ import { Route as BudgetRouteImport } from './routes/budget'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as DocumentationRouteImport } from './routes/documentation'
 import { Route as DossiersRouteImport } from './routes/dossiers'
+import { Route as DossierIdRouteImport } from './routes/dossier.$id'
 import { Route as EventsIndexRouteImport } from './routes/events.index'
 import { Route as EventsIdRouteImport } from './routes/events.$id'
 import { Route as EventsNewRouteImport } from './routes/events.new'
@@ -49,6 +50,11 @@ const DossiersRoute = DossiersRouteImport.update({
   path: '/dossiers',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DossierIdRoute = DossierIdRouteImport.update({
+  id: '/dossier/$id',
+  path: '/dossier/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EventsIndexRoute = EventsIndexRouteImport.update({
   id: '/events/',
   path: '/events/',
@@ -72,6 +78,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRoute
   '/documentation': typeof DocumentationRoute
   '/dossiers': typeof DossiersRoute
+  '/dossier/$id': typeof DossierIdRoute
   '/events/$id': typeof EventsIdRoute
   '/events/new': typeof EventsNewRoute
   '/events/': typeof EventsIndexRoute
@@ -83,6 +90,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRoute
   '/documentation': typeof DocumentationRoute
   '/dossiers': typeof DossiersRoute
+  '/dossier/$id': typeof DossierIdRoute
   '/events/$id': typeof EventsIdRoute
   '/events/new': typeof EventsNewRoute
   '/events': typeof EventsIndexRoute
@@ -95,6 +103,7 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/documentation': typeof DocumentationRoute
   '/dossiers': typeof DossiersRoute
+  '/dossier/$id': typeof DossierIdRoute
   '/events/$id': typeof EventsIdRoute
   '/events/new': typeof EventsNewRoute
   '/events/': typeof EventsIndexRoute
@@ -108,6 +117,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/documentation'
     | '/dossiers'
+    | '/dossier/$id'
     | '/events/$id'
     | '/events/new'
     | '/events/'
@@ -119,6 +129,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/documentation'
     | '/dossiers'
+    | '/dossier/$id'
     | '/events/$id'
     | '/events/new'
     | '/events'
@@ -130,6 +141,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/documentation'
     | '/dossiers'
+    | '/dossier/$id'
     | '/events/$id'
     | '/events/new'
     | '/events/'
@@ -142,6 +154,7 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   DocumentationRoute: typeof DocumentationRoute
   DossiersRoute: typeof DossiersRoute
+  DossierIdRoute: typeof DossierIdRoute
   EventsIdRoute: typeof EventsIdRoute
   EventsNewRoute: typeof EventsNewRoute
   EventsIndexRoute: typeof EventsIndexRoute
@@ -191,6 +204,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DossiersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dossier/$id': {
+      id: '/dossier/$id'
+      path: '/dossier/$id'
+      fullPath: '/dossier/$id'
+      preLoaderRoute: typeof DossierIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/events/': {
       id: '/events/'
       path: '/events'
@@ -222,6 +242,7 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   DocumentationRoute: DocumentationRoute,
   DossiersRoute: DossiersRoute,
+  DossierIdRoute: DossierIdRoute,
   EventsIdRoute: EventsIdRoute,
   EventsNewRoute: EventsNewRoute,
   EventsIndexRoute: EventsIndexRoute,
