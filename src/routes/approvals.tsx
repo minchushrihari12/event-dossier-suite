@@ -33,7 +33,14 @@ export const Route = createFileRoute("/approvals")({
 function ApprovalsPage() {
   const { db } = useStore();
   const awaiting = db.events.filter((e) => e.status === "pending");
-  const decided = db.events.filter((e) => e.status === "approved" || e.status === "rejected" || e.status === "completed");
+  const approved = db.events.filter((e) => e.status === "approved");
+  const rejected = db.events.filter((e) => e.status === "rejected");
+  const completed = db.events.filter((e) => e.status === "completed");
+
+  const lastDecision = (eventId: string) =>
+    db.approvals
+      .filter((a) => a.eventId === eventId)
+      .sort((a, b) => b.timestamp.localeCompare(a.timestamp))[0];
 
   return (
     <>
@@ -67,24 +74,67 @@ function ApprovalsPage() {
         </div>
       )}
 
-      <h2 className="mb-3 mt-8 text-base font-bold">Decided events ({decided.length})</h2>
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {decided.map((e) => (
-          <Link key={e.id} to="/events/$id" params={{ id: e.id }}>
-            <Card>
-              <CardContent className="p-4">
-                <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-2">
-                  <p className="min-w-0 truncate font-semibold">{e.title}</p>
-                  <StatusBadge status={e.status} />
-                </div>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  {departmentName(db, e.departmentId)} · {fmtDate(e.date)}
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
-        ))}
-      </div>
+      <DecidedGroup title="Approved events" events={approved} db={db} lastDecision={lastDecision} />
+      <DecidedGroup title="Rejected events" events={rejected} db={db} lastDecision={lastDecision} />
+      <DecidedGroup
+        title="Completed events"
+        events={completed}
+        db={db}
+        lastDecision={lastDecision}
+        emptyText="No events have been completed yet."
+      />
+    </>
+  );
+}
+
+function DecidedGroup({
+  title,
+  events,
+  db,
+  lastDecision,
+  emptyText,
+}: {
+  title: string;
+  events: ReturnType<typeof useStore>["db"]["events"];
+  db: ReturnType<typeof useStore>["db"];
+  lastDecision: (id: string) => { timestamp: string; approverName: string } | undefined;
+  emptyText?: string;
+}) {
+  return (
+    <>
+      <h2 className="mb-3 mt-8 text-base font-bold">
+        {title} ({events.length})
+      </h2>
+      {events.length === 0 ? (
+        <EmptyState title={`No ${title.toLowerCase()}`} description={emptyText ?? ""} />
+      ) : (
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {events.map((e) => {
+            const d = lastDecision(e.id);
+            return (
+              <Link key={e.id} to="/events/$id" params={{ id: e.id }}>
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-2">
+                      <p className="min-w-0 truncate font-semibold">{e.title}</p>
+                      <StatusBadge status={e.status} />
+                    </div>
+                    <p className="mt-1 truncate text-xs text-muted-foreground">
+                      {departmentName(db, e.departmentId)} · {fmtDate(e.date)} ·{" "}
+                      {organizerName(db, e.organizerId)}
+                    </p>
+                    {d && (
+                      <p className="mt-2 truncate text-xs text-muted-foreground">
+                        Decision: {fmtDateTime(d.timestamp)} by {d.approverName}
+                      </p>
+                    )}
+                  </CardContent>
+                </Card>
+              </Link>
+            );
+          })}
+        </div>
+      )}
     </>
   );
 }
@@ -97,3 +147,4 @@ function Row({ k, v }: { k: string; v: string }) {
     </div>
   );
 }
+
